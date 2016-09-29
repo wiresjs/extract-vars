@@ -13,7 +13,7 @@ export class ParserState {
      *
      * @memberOf ParserState
      */
-    private states = new Set();
+    private states = new Set<any>();
 
 
     /**
@@ -26,7 +26,7 @@ export class ParserState {
         for (let i = 0; i < arguments.length; i++) {
             let name = arguments[i];
             if (!this.states.has(name)) {
-                this.states.add(name)
+                this.states.add(name);
             }
         }
     }
@@ -67,7 +67,7 @@ export class ParserState {
      *
      * @memberOf ParserState
      */
-    public once(name : any) {
+    public once(name: any) {
         let valid = this.states.has(name);
         if (valid) {
             this.states.delete(name);

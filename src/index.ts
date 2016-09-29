@@ -1,3 +1,1 @@
-
-
-export var ExtractVars = { a: 1 };
+export { dig } from "./Digger";

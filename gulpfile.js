@@ -22,6 +22,7 @@ gulp.task('build', function() {
         .pipe(project());
     return result.js.pipe(tsUniversal('build/', {
             name: 'extract-vars',
+            expose2window : true,
             expose: 'index',
         }))
         .pipe(rename('build.js'))
