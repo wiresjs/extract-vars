@@ -246,19 +246,6 @@ define("index", ["require", "exports", "Digger"], function (require, exports, Di
     "use strict";
     exports.dig = Digger_1.dig;
 });
-define("rules/collection/StringDefenitions", ["require", "exports", "rules/TokenRule", "States"], function (require, exports, TokenRule_2, States_3) {
-    "use strict";
-    class StringDefinitions extends TokenRule_2.TokenRule {
-        getTokens() {
-            return [`'`, `"`];
-        }
-        process(state, token) {
-            state.set(States_3.States.CANCEL_NEXT_TOKEN);
-            return false;
-        }
-    }
-    exports.StringDefinitions = StringDefinitions;
-});
 
 var __expose__ = function(n, m, w, c) {
     var e = __resolve__(n);

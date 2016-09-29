@@ -61,11 +61,3 @@ declare module "Digger" {
 declare module "index" {
     export { dig } from "Digger";
 }
-declare module "rules/collection/StringDefenitions" {
-    import { TokenRule } from "rules/TokenRule";
-    import { ParserState } from "ParserState";
-    export class StringDefinitions extends TokenRule {
-        getTokens(): string[];
-        process(state: ParserState, token: string): boolean;
-    }
-}

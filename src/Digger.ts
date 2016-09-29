@@ -1,4 +1,3 @@
-
 import { ReserverdVariableDefinition } from "./rules/collection/ReserverdVariableDefinition";
 import { TokenRules } from "./rules/TokenRules";
 import { VariableCharacters } from "./rules/ValidCharacter";
