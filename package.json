@@ -1,6 +1,6 @@
 {
   "name": "extract-vars",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Hello!",
   "main": "gulpfile.js",
   "directories": {
