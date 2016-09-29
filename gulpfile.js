@@ -4,6 +4,7 @@ const ts = require('gulp-typescript');
 const concat = require('gulp-concat');
 const fs = require('fs');
 const tsUniversal = require("ts-universal");
+const merge = require("merge2");
 const sourcemaps = require('gulp-sourcemaps');
 const runSequence = require('run-sequence');
 
@@ -22,11 +23,29 @@ gulp.task('build', function() {
         .pipe(project());
     return result.js.pipe(tsUniversal('build/', {
             name: 'extract-vars',
-            expose2window : true,
+            expose2window: true,
             expose: 'index',
         }))
         .pipe(rename('build.js'))
         .pipe(gulp.dest('build/'));
+});
+
+gulp.task('dist', function() {
+    let result = gulp.src('src/**/*.ts')
+        .pipe(sourcemaps.init())
+        .pipe(project());
+
+    return merge([
+        result.dts.pipe(gulp.dest('dist/')),
+        result.js.pipe(tsUniversal('build/', {
+            name: 'extract-vars',
+            expose2window: true,
+            expose: 'index',
+        }))
+        .pipe(rename('build.js'))
+        .pipe(gulp.dest('dist/'))
+    ]);
+
 });
 
 gulp.task('test', ['dist'], function() {

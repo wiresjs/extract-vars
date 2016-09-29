@@ -9,8 +9,7 @@ export class VariableCharacters {
         return VALID_VARIABLE_CHARS.indexOf(char) > -1;
     };
 
-    public static validVariableStart(char: string)
-    {
+    public static validVariableStart(char: string) {
         return VALID_VARIABLE_START.indexOf(char) > -1;
     }
 
