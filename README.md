@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/wiresjs/async-watch.svg?branch=master)](https://travis-ci.org/wiresjs/async-watch)
+[![Build Status](https://travis-ci.org/wiresjs/extract-vars.svg?branch=master)](https://travis-ci.org/wiresjs/extract-vars)
 
 # Extract Watchables
 
