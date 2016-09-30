@@ -1,42 +1,42 @@
 {
-    "name": "extract-vars",
-    "version": "1.0.5",
-    "description": "Hello!",
-    "typings": "./dist/typings/index.d.ts",
-    "main": "gulpfile.js",
-    "directories": {
-        "test": "test"
-    },
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/wiresjs/extract-vars.git"
-    },
-    "author": "",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/wiresjs/extract-vars/issues"
-    },
-    "homepage": "https://github.com/wiresjs/extract-vars#readme",
-    "devDependencies": {
-        "@types/node": "^6.0.41",
-        "babel-preset-es2015": "^6.16.0",
-        "gulp": "^3.9.1",
-        "gulp-babel": "^6.1.2",
-        "gulp-concat": "^2.6.0",
-        "gulp-rename": "^1.2.2",
-        "gulp-replace": "^0.5.4",
-        "gulp-sourcemaps": "^1.6.0",
-        "gulp-typescript": "^3.0.1",
-        "gulp-uglify": "^2.0.0",
-        "merge2": "^1.0.2",
-        "mocha": "^3.1.0",
-        "run-sequence": "^1.2.2",
-        "should": "^11.1.0",
-        "ts-universal": "^2.0.1",
-        "typescript": "^2.0.3"
-    },
-    "dependencies": {}
+  "name": "extract-vars",
+  "version": "1.0.5",
+  "description": "Hello!",
+  "typings": "./dist/typings/index.d.ts",
+  "main": "gulpfile.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wiresjs/extract-vars.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wiresjs/extract-vars/issues"
+  },
+  "homepage": "https://github.com/wiresjs/extract-vars#readme",
+  "devDependencies": {
+    "@types/node": "^6.0.41",
+    "babel-preset-es2015": "^6.16.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-concat": "^2.6.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-typescript": "^3.0.1",
+    "gulp-uglify": "^2.0.0",
+    "merge2": "^1.0.2",
+    "mocha": "^3.1.0",
+    "run-sequence": "^1.2.2",
+    "should": "^11.1.0",
+    "ts-universal": "^2.0.1",
+    "typescript": "^2.0.3"
+  },
+  "dependencies": {}
 }
