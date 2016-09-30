@@ -55,7 +55,7 @@ gulp.task('dist', function() {
 
     return merge([
         gulp.src('src/**/*.ts')
-        .pipe(typingsProject()).dts.pipe(gulp.dest('dist/')),
+        .pipe(typingsProject()).dts.pipe(gulp.dest('dist/typings')),
         result.js.pipe(tsUniversal('build/', {
             name: 'extract-vars',
             expose2window: true,
