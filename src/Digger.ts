@@ -41,7 +41,16 @@ class Digger {
      * @type {string}
      * @memberOf Digger
      */
-    private ignoredUntil: string;
+    private consumingString: string;
+
+    /**
+     *
+     *
+     * @private
+     * @type {boolean}
+     * @memberOf Digger
+     */
+    private ignoreNext: boolean = false;
     /**
      *
      *
@@ -127,8 +136,8 @@ class Digger {
      *
      * @memberOf Digger
      */
-    public ignoreUntil(char: string) {
-        this.ignoredUntil = char;
+    public consumeString(char: string) {
+        this.consumingString = char;
     }
 
     /**
@@ -175,6 +184,19 @@ class Digger {
      * @memberOf Digger
      */
     public receive(char: string, end: boolean) {
+        // If next character requires to be ignored
+        if (this.ignoreNext) {
+            // reset
+            this.ignoreNext = false;
+            return;
+        }
+
+        // Escaping string
+        if (char === "\\") {
+            this.ignoreNext = true;
+            return;
+        }
+
         // If a previous symbol was "=" -> we would like to cancel previously defined variable
         if (this.state.once(States.EXPECT_ASSIGNING)) {
             if (char !== "=") {
@@ -193,9 +215,9 @@ class Digger {
                 return;
             }
         }
-        if (this.ignoredUntil) {
-            if (this.ignoredUntil === char) {
-                delete this.ignoredUntil;
+        if (this.consumingString) {
+            if (this.consumingString === char) {
+                delete this.consumingString;
             }
             return;
         }
@@ -238,10 +260,17 @@ class Digger {
         }
         // Handle strings
         // We just ignore them
-        if (char === `'` || char === `"`) {
+        if (char === `'` || char === `"` || char === "`") {
             this.state.set(States.TOKEN_PERSISTED)
-            return this.ignoreUntil(char);
+            return this.consumeString(char);
         }
+    }
+
+    public getVariables() {
+        return this.variables.filter(varname => {
+            let isValid = VariableCharacters.isValid(varname);
+            return isValid
+        });
     }
 }
 
@@ -250,5 +279,7 @@ export const dig = (expression: string) => {
     for (let i = 0; i < expression.length; i++) {
         digger.receive(expression[i], i === expression.length - 1);
     }
+    let vars = digger.getVariables();
+
     return digger.variables;
 };

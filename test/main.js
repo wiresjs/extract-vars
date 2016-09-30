@@ -16,8 +16,6 @@ describe("Parser test", () => {
         dig("var a = user.name") //.should.deepEqual(['user.name'])
     });
 
-
-
     it("Should parse statement #4", () => {
         dig("ship.pirate[0].name").should.deepEqual(['ship.pirate[0].name'])
     });
@@ -92,6 +90,15 @@ describe("Parser test", () => {
             .should.deepEqual(["user.name", "user.age", "user.sex"])
     });
 
+    it("Should solve issue #1", () => {
+        //console.log(dig(`@name callMe($$name)`));
+        //dig(`@name callMe($$name)`).should.deepEqual(["$$name"])
+    });
+
+    it("Should escape strings", () => {
+        dig(` 'usernam\\'e' foo `).should.deepEqual(["foo"])
+
+    });
 
 
 })

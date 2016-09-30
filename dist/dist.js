@@ -108,6 +108,7 @@ define("rules/ValidCharacter", ["require", "exports"], function (require, export
     const alphabet = "abcdefghijklmnopqrstuvwxyz";
     const VALID_VARIABLE_CHARS = `${alphabet}${alphabet.toUpperCase()}$._[]1234567890`;
     const VALID_VARIABLE_START = `${alphabet}${alphabet.toUpperCase()}$_`;
+    const QUOTES = '`"\'';
     class VariableCharacters {
         static isValid(char) {
             return VALID_VARIABLE_CHARS.indexOf(char) > -1;
@@ -115,6 +116,14 @@ define("rules/ValidCharacter", ["require", "exports"], function (require, export
         ;
         static validVariableStart(char) {
             return VALID_VARIABLE_START.indexOf(char) > -1;
+        }
+        static isValidVariable(varname) {
+            for (let i = 0; i < varname.length; i++) {
+                if (VALID_VARIABLE_CHARS.indexOf(varname[i]) < 0) {
+                    return false;
+                }
+            }
+            return true;
         }
         static hasStringQuotes(char) {
             let chars = [`'`, `"`];
@@ -129,6 +138,7 @@ define("Digger", ["require", "exports", "rules/collection/ReserverdVariableDefin
         constructor() {
             this.variables = [];
             this.state = new ParserState_1.ParserState();
+            this.ignoreNext = false;
             this.rules = new TokenRules_1.TokenRules(this.state, [
                 new ReserverdVariableDefinition_1.ReserverdVariableDefinition(),
             ]);
@@ -151,8 +161,8 @@ define("Digger", ["require", "exports", "rules/collection/ReserverdVariableDefin
         accept(token) {
             return this.rules.verify(token);
         }
-        ignoreUntil(char) {
-            this.ignoredUntil = char;
+        consumeString(char) {
+            this.consumingString = char;
         }
         ignoreUntilNot(char) {
             this.ignoredUntilNot = char;
@@ -172,6 +182,14 @@ define("Digger", ["require", "exports", "rules/collection/ReserverdVariableDefin
             }
         }
         receive(char, end) {
+            if (this.ignoreNext) {
+                this.ignoreNext = false;
+                return;
+            }
+            if (char === "\\") {
+                this.ignoreNext = true;
+                return;
+            }
             if (this.state.once(States_2.States.EXPECT_ASSIGNING)) {
                 if (char !== "=") {
                     this.cancelLatest();
@@ -189,9 +207,9 @@ define("Digger", ["require", "exports", "rules/collection/ReserverdVariableDefin
                     return;
                 }
             }
-            if (this.ignoredUntil) {
-                if (this.ignoredUntil === char) {
-                    delete this.ignoredUntil;
+            if (this.consumingString) {
+                if (this.consumingString === char) {
+                    delete this.consumingString;
                 }
                 return;
             }
@@ -228,10 +246,16 @@ define("Digger", ["require", "exports", "rules/collection/ReserverdVariableDefin
                 this.ignoreUntilNot(char);
                 return this.state.set(States_2.States.EXPECT_ASSIGNING);
             }
-            if (char === `'` || char === `"`) {
+            if (char === `'` || char === `"` || char === "`") {
                 this.state.set(States_2.States.TOKEN_PERSISTED);
-                return this.ignoreUntil(char);
+                return this.consumeString(char);
             }
+        }
+        getVariables() {
+            return this.variables.filter(varname => {
+                let isValid = ValidCharacter_1.VariableCharacters.isValid(varname);
+                return isValid;
+            });
         }
     }
     exports.dig = (expression) => {
@@ -239,6 +263,7 @@ define("Digger", ["require", "exports", "rules/collection/ReserverdVariableDefin
         for (let i = 0; i < expression.length; i++) {
             digger.receive(expression[i], i === expression.length - 1);
         }
+        let vars = digger.getVariables();
         return digger.variables;
     };
 });

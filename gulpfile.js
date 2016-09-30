@@ -12,6 +12,11 @@ const babel = require("gulp-babel");
 const replace = require("gulp-replace");
 
 let project = ts.createProject('src/tsconfig.json');
+let typingsProject = ts.createProject('src/tsconfig.json', {
+    module: "system",
+    outFile: null,
+    outDir: "dist/"
+});
 
 gulp.task('watch', ['build'], function() {
     gulp.watch(['src/**/*.ts'], () => {
@@ -46,8 +51,11 @@ gulp.task('dist', function() {
         .pipe(sourcemaps.init())
         .pipe(project());
 
+
+
     return merge([
-        result.dts.pipe(gulp.dest('dist/')),
+        gulp.src('src/**/*.ts')
+        .pipe(typingsProject()).dts.pipe(gulp.dest('dist/')),
         result.js.pipe(tsUniversal('build/', {
             name: 'extract-vars',
             expose2window: true,

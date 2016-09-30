@@ -2,6 +2,7 @@
   "name": "extract-vars",
   "version": "1.0.2",
   "description": "Hello!",
+  "typings" : ".dist/index.d.ts",
   "main": "gulpfile.js",
   "directories": {
     "test": "test"
