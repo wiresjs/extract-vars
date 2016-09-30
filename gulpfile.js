@@ -46,12 +46,10 @@ gulp.task("minify", function() {
         .pipe(uglify())
         .pipe(gulp.dest('dist/'));
 })
-gulp.task('dist', function() {
+gulp.task('build-dist', function() {
     let result = gulp.src('src/**/*.ts')
         .pipe(sourcemaps.init())
         .pipe(project());
-
-
 
     return merge([
         gulp.src('src/**/*.ts')
@@ -64,7 +62,9 @@ gulp.task('dist', function() {
         .pipe(rename('dist.js'))
         .pipe(gulp.dest('dist/'))
     ]);
-
+});
+gulp.task("dist", ["build-dist"], function(){
+    return runSequence("minify");
 });
 
 gulp.task('test', ['dist'], function() {

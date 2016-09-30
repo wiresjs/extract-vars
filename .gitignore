@@ -3,6 +3,5 @@
 node_modules/
 bower_components/
 build/
-.language-cache/
 .vscode/
 .langCache/
