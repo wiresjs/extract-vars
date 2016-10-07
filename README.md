@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/wiresjs/extract-vars.svg?branch=master)](https://travis-ci.org/wiresjs/extract-vars)
+
 # Extract Watchables
 
 extract-vars is a unique library that helps to extract variables from a javascript expression that could be possibly watched.
