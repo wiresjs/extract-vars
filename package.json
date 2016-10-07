@@ -1,9 +1,9 @@
 {
     "name": "extract-vars",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "description": "Hello!",
     "typings": "./dist/typings/index.d.ts",
-    "main": "gulpfile.js",
+    "main": "dist/dist.js",
     "directories": {
         "test": "test"
     },
