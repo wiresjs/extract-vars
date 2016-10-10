@@ -1,4 +1,4 @@
-const ExtractVars = require("../build/build.js");
+const ExtractVars = require("../build/commonjs/index.js");
 const should = require("should");
 const dig = ExtractVars.dig;
 describe("Parser test", () => {
