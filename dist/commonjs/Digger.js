@@ -1,11 +1,11 @@
 "use strict";
-const ReserverdVariableDefinition_1 = require("./rules/collection/ReserverdVariableDefinition");
-const TokenRules_1 = require("./rules/TokenRules");
-const ValidCharacter_1 = require("./rules/ValidCharacter");
-const ParserState_1 = require("./ParserState");
-const States_1 = require("./States");
-class Digger {
-    constructor() {
+var ReserverdVariableDefinition_1 = require("./rules/collection/ReserverdVariableDefinition");
+var TokenRules_1 = require("./rules/TokenRules");
+var ValidCharacter_1 = require("./rules/ValidCharacter");
+var ParserState_1 = require("./ParserState");
+var States_1 = require("./States");
+var Digger = (function () {
+    function Digger() {
         this.variables = [];
         this.state = new ParserState_1.ParserState();
         this.ignoreNext = false;
@@ -14,32 +14,32 @@ class Digger {
         ]);
         this.state.set(States_1.States.PENDING_FOR_VARIABLE);
     }
-    consumeVariable(char) {
+    Digger.prototype.consumeVariable = function (char) {
         this.latest = this.latest || [];
         this.latest.push(char);
-    }
-    cancelCurrentVariable() {
+    };
+    Digger.prototype.cancelCurrentVariable = function () {
         this.latest = null;
         this.state.set(States_1.States.PENDING_FOR_VARIABLE);
         this.state.unset(States_1.States.CONSUMING_VARIABLE);
-    }
-    cancelLatest() {
+    };
+    Digger.prototype.cancelLatest = function () {
         if (!this.state.has(States_1.States.TOKEN_PERSISTED)) {
             this.variables.pop();
         }
-    }
-    accept(token) {
+    };
+    Digger.prototype.accept = function (token) {
         return this.rules.verify(token);
-    }
-    consumeString(char) {
+    };
+    Digger.prototype.consumeString = function (char) {
         this.consumingString = char;
-    }
-    ignoreUntilNot(char) {
+    };
+    Digger.prototype.ignoreUntilNot = function (char) {
         this.ignoredUntilNot = char;
-    }
-    finalizeVariable() {
+    };
+    Digger.prototype.finalizeVariable = function () {
         if (this.latest) {
-            let tokenName = this.latest.join("");
+            var tokenName = this.latest.join("");
             this.cancelCurrentVariable();
             if (this.accept(tokenName)) {
                 if (!this.state.once(States_1.States.CANCEL_NEXT_TOKEN)) {
@@ -50,8 +50,8 @@ class Digger {
                 }
             }
         }
-    }
-    receive(char, end) {
+    };
+    Digger.prototype.receive = function (char, end) {
         if (this.ignoreNext) {
             this.ignoreNext = false;
             return;
@@ -116,23 +116,24 @@ class Digger {
             this.ignoreUntilNot(char);
             return this.state.set(States_1.States.EXPECT_ASSIGNING);
         }
-        if (char === `'` || char === `"` || char === "`") {
+        if (char === "'" || char === "\"" || char === "`") {
             this.state.set(States_1.States.TOKEN_PERSISTED);
             return this.consumeString(char);
         }
-    }
-    getVariables() {
-        return this.variables.filter(varname => {
-            let isValid = ValidCharacter_1.VariableCharacters.isValid(varname);
+    };
+    Digger.prototype.getVariables = function () {
+        return this.variables.filter(function (varname) {
+            var isValid = ValidCharacter_1.VariableCharacters.isValid(varname);
             return isValid;
         });
-    }
-}
-exports.dig = (expression) => {
-    let digger = new Digger();
-    for (let i = 0; i < expression.length; i++) {
+    };
+    return Digger;
+}());
+exports.dig = function (expression) {
+    var digger = new Digger();
+    for (var i = 0; i < expression.length; i++) {
         digger.receive(expression[i], i === expression.length - 1);
     }
-    let vars = digger.getVariables();
+    var vars = digger.getVariables();
     return digger.variables;
 };

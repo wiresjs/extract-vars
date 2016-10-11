@@ -1,17 +1,19 @@
 "use strict";
-class TokenRules {
-    constructor(state, rules) {
+var TokenRules = (function () {
+    function TokenRules(state, rules) {
         this.state = state;
         this.rules = rules;
     }
-    verify(token) {
-        let verified = true;
-        this.rules.forEach(rule => {
+    TokenRules.prototype.verify = function (token) {
+        var _this = this;
+        var verified = true;
+        this.rules.forEach(function (rule) {
             if (rule.belongs(token)) {
-                verified = rule.process(this.state, token);
+                verified = rule.process(_this.state, token);
             }
         });
         return verified;
-    }
-}
+    };
+    return TokenRules;
+}());
 exports.TokenRules = TokenRules;
