@@ -100,5 +100,13 @@ describe("Parser test", () => {
 
     });
 
+    it("Should extract dollar", () => {
+        dig(` $parent.user.name `).should.deepEqual(["$parent.user.name"])
+
+    });
+
+
+
+
 
 })
